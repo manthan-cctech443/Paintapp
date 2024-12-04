@@ -27,11 +27,11 @@
             </ComboBox>
             <Label Content="Mode : "/>
             <ComboBox Name ="Mode" Width="100">
-                <ComboBoxItem Content="Straight Line"/>
+                <ComboBoxItem Content="Straight Line" IsSelected="True"/>
                 <ComboBoxItem Content="Free Drawing"/>
             </ComboBox>
         </ToolBar>
-        <Canvas x:Name="myCanvas" Margin="0,33,0,0" MouseDown="Mouse_Down" MouseUp="Mouse_Up" MouseMove="Mouse_Move">
+        <Canvas x:Name="myCanvas" Margin="0,33,0,0" MouseDown="Mouse_Down" MouseMove="Mouse_Move">
             <Canvas.Background>
                 <SolidColorBrush Color="Black" Opacity="0"/>
             </Canvas.Background>
