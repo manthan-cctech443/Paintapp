@@ -43,24 +43,7 @@ namespace Paint
             string remde = mde.Substring(mdeIndex + 2);
             if (remde == "Straight Line")
             {
-                Line line = new Line();
-                line.Stroke = SystemColors.WindowFrameBrush;
-                line.X1 = currentPoint.X;
-                line.Y1 = currentPoint.Y;
-                line.X2 = e.GetPosition(myCanvas).X;
-                line.Y2 = e.GetPosition(myCanvas).Y;
-
-                string len = Brushsize.SelectedItem.ToString();
-                string pattern = @"\d{1,2}$";
-                Match match = Regex.Match(len, pattern);
-                line.StrokeThickness = int.Parse(match.Value);
-
-                string colr = Brushcolor.SelectedItem.ToString();
-                int colonIndex = colr.IndexOf(": ");
-                string result = colr.Substring(colonIndex + 2);
-                BrushConverter converter = new BrushConverter();
-                Brush colorBrush = (Brush)converter.ConvertFromString(result);
-                line.Stroke = colorBrush;
+                Line line = Draws(e);
 
                 myCanvas.Children.Add(line);
             }
@@ -76,29 +59,36 @@ namespace Paint
 
                 if (remde == "Free Drawing")
                 {
-                    Line line = new Line();
-                    line.Stroke = SystemColors.WindowFrameBrush;
-                    line.X1 = currentPoint.X;
-                    line.Y1 = currentPoint.Y;
-                    line.X2 = e.GetPosition(myCanvas).X;
-                    line.Y2 = e.GetPosition(myCanvas).Y;
-
-                    string len = Brushsize.SelectedItem.ToString();
-                    string pattern = @"\d{1,2}$";
-                    Match match = Regex.Match(len, pattern);
-                    line.StrokeThickness = int.Parse(match.Value);
-
-                    string colr = Brushcolor.SelectedItem.ToString();
-                    int colonIndex = colr.IndexOf(": ");
-                    string result = colr.Substring(colonIndex + 2);
-                    BrushConverter converter = new BrushConverter();
-                    Brush colorBrush = (Brush)converter.ConvertFromString(result);
-                    line.Stroke = colorBrush;
+                    Line line = Draws(e);
 
                     currentPoint = e.GetPosition(myCanvas);
                     myCanvas.Children.Add(line);
                 }
             }
+        }
+
+        public Line Draws(MouseEventArgs e)
+        {
+            Line line = new Line();
+            line.Stroke = SystemColors.WindowFrameBrush;
+            line.X1 = currentPoint.X;
+            line.Y1 = currentPoint.Y;
+            line.X2 = e.GetPosition(myCanvas).X;
+            line.Y2 = e.GetPosition(myCanvas).Y;
+
+            string len = Brushsize.SelectedItem.ToString();
+            string pattern = @"\d{1,2}$";
+            Match match = Regex.Match(len, pattern);
+            line.StrokeThickness = int.Parse(match.Value);
+
+            string colr = Brushcolor.SelectedItem.ToString();
+            int colonIndex = colr.IndexOf(": ");
+            string result = colr.Substring(colonIndex + 2);
+            BrushConverter converter = new BrushConverter();
+            Brush colorBrush = (Brush)converter.ConvertFromString(result);
+            line.Stroke = colorBrush;
+
+            return line;
         }
     }
 }
