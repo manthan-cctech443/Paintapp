@@ -31,7 +31,7 @@
                 <ComboBoxItem Content="Free Drawing"/>
             </ComboBox>
         </ToolBar>
-        <Canvas x:Name="myCanvas" Margin="0,33,0,0" MouseDown="Mouse_Down" MouseMove="Mouse_Move">
+        <Canvas x:Name="myCanvas" Margin="0,33,0,0" MouseDown="Mouse_Down" MouseMove="Mouse_Move" MouseUp="Mouse_Up">
             <Canvas.Background>
                 <SolidColorBrush Color="Black" Opacity="0"/>
             </Canvas.Background>

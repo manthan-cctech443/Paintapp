@@ -22,7 +22,7 @@ namespace Paint
 
         public MainWindow()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -36,6 +36,36 @@ namespace Paint
                 currentPoint = e.GetPosition(myCanvas);
         }
 
+        private void Mouse_Up(object sender, MouseButtonEventArgs e)
+        {
+            string mde = Mode.SelectedItem.ToString();
+            int mdeIndex = mde.IndexOf(": ");
+            string remde = mde.Substring(mdeIndex + 2);
+            if (remde == "Straight Line")
+            {
+                Line line = new Line();
+                line.Stroke = SystemColors.WindowFrameBrush;
+                line.X1 = currentPoint.X;
+                line.Y1 = currentPoint.Y;
+                line.X2 = e.GetPosition(myCanvas).X;
+                line.Y2 = e.GetPosition(myCanvas).Y;
+
+                string len = Brushsize.SelectedItem.ToString();
+                string pattern = @"\d{1,2}$";
+                Match match = Regex.Match(len, pattern);
+                line.StrokeThickness = int.Parse(match.Value);
+
+                string colr = Brushcolor.SelectedItem.ToString();
+                int colonIndex = colr.IndexOf(": ");
+                string result = colr.Substring(colonIndex + 2);
+                BrushConverter converter = new BrushConverter();
+                Brush colorBrush = (Brush)converter.ConvertFromString(result);
+                line.Stroke = colorBrush;
+
+                myCanvas.Children.Add(line);
+            }
+        }
+
         private void Mouse_Move(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -45,31 +75,6 @@ namespace Paint
                 string remde = mde.Substring(mdeIndex + 2);
 
                 if (remde == "Free Drawing")
-                { 
-                    Line line = new Line();
-                    line.Stroke = SystemColors.WindowFrameBrush;
-                    line.X1 = currentPoint.X;
-                    line.Y1 = currentPoint.Y;
-                    line.X2 = e.GetPosition(myCanvas).X;
-                    line.Y2 = e.GetPosition(myCanvas).Y;
-                    currentPoint = e.GetPosition(myCanvas);
-
-                    string len = Brushsize.SelectedItem.ToString();
-                    string pattern = @"\d{1,2}$";
-                    Match match = Regex.Match(len, pattern);
-                    line.StrokeThickness = int.Parse(match.Value);
-
-                    string colr = Brushcolor.SelectedItem.ToString();
-                    int colonIndex = colr.IndexOf(": ");
-                    string result = colr.Substring(colonIndex + 2);
-                    BrushConverter converter = new BrushConverter();
-                    Brush colorBrush = (Brush)converter.ConvertFromString(result);
-                    line.Stroke = colorBrush;
-
-
-                    myCanvas.Children.Add(line);
-                }
-                else if(remde == "Straight Line")
                 {
                     Line line = new Line();
                     line.Stroke = SystemColors.WindowFrameBrush;
@@ -77,7 +82,6 @@ namespace Paint
                     line.Y1 = currentPoint.Y;
                     line.X2 = e.GetPosition(myCanvas).X;
                     line.Y2 = e.GetPosition(myCanvas).Y;
-                    
 
                     string len = Brushsize.SelectedItem.ToString();
                     string pattern = @"\d{1,2}$";
@@ -91,7 +95,7 @@ namespace Paint
                     Brush colorBrush = (Brush)converter.ConvertFromString(result);
                     line.Stroke = colorBrush;
 
-                    myCanvas.Children.Clear();
+                    currentPoint = e.GetPosition(myCanvas);
                     myCanvas.Children.Add(line);
                 }
             }
