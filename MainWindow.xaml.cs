@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,6 +60,14 @@ namespace Paint
                 string pattern = @"\d{1,2}$";
                 Match match = Regex.Match(len, pattern);
                 line.StrokeThickness = int.Parse(match.Value);
+
+                string colr = Brushcolor.SelectedItem.ToString();
+                int colonIndex = colr.IndexOf(": ");
+                string result = colr.Substring(colonIndex + 2);
+                BrushConverter converter = new BrushConverter();
+                Brush colorBrush = (Brush)converter.ConvertFromString(result);
+                line.Stroke = colorBrush;
+
                 myCanvas.Children.Add(line);
             }
         }

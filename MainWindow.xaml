@@ -20,7 +20,7 @@
             <Label Content="Brush Color : "/>
             <ComboBox x:Name="Brushcolor" Width="70">
                 <ComboBoxItem Content="Red"/>
-                <ComboBoxItem Content="Black"/>
+                <ComboBoxItem Content="Black" IsSelected="True"/>
                 <ComboBoxItem Content="Blue"/>
                 <ComboBoxItem Content="Green"/>
                 <ComboBoxItem Content="Yellow"/>
