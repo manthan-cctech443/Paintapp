@@ -68,6 +68,7 @@ namespace Paint
                 Brush colorBrush = (Brush)converter.ConvertFromString(result);
                 line.Stroke = colorBrush;
 
+
                 myCanvas.Children.Add(line);
             }
         }
