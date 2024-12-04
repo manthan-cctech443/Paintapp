@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,7 +21,7 @@ namespace Paint
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -44,6 +45,8 @@ namespace Paint
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+
+                //if(mode)
                 Line line = new Line();
                 line.Stroke = SystemColors.WindowFrameBrush;
                 line.X1 = currentPoint.X;
@@ -52,6 +55,10 @@ namespace Paint
                 line.Y2 = e.GetPosition(myCanvas).Y;
                 currentPoint = e.GetPosition(myCanvas);
 
+                string len = Brushsize.SelectedItem.ToString();
+                string pattern = @"\d{1,2}$";
+                Match match = Regex.Match(len, pattern);
+                line.StrokeThickness = int.Parse(match.Value);
                 myCanvas.Children.Add(line);
             }
         }
