@@ -25,7 +25,7 @@ namespace Paint
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Clear_Button_Click(object sender, RoutedEventArgs e)
         {
             myCanvas.Children.Clear();
         }
@@ -38,10 +38,9 @@ namespace Paint
 
         private void Mouse_Up(object sender, MouseButtonEventArgs e)
         {
-            string mde = Mode.SelectedItem.ToString();
-            int mdeIndex = mde.IndexOf(": ");
-            string remde = mde.Substring(mdeIndex + 2);
-            if (remde == "Straight Line")
+            string choosen_mode = processModeInput();
+
+            if (choosen_mode == "Straight Line")
             {
                 Line line = Draws(e);
 
@@ -53,11 +52,9 @@ namespace Paint
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                string mde = Mode.SelectedItem.ToString();
-                int mdeIndex = mde.IndexOf(": ");
-                string remde = mde.Substring(mdeIndex + 2);
+                string choosen_mode = processModeInput();
 
-                if (remde == "Free Drawing")
+                if (choosen_mode == "Free Drawing")
                 {
                     Line line = Draws(e);
 
@@ -67,7 +64,7 @@ namespace Paint
             }
         }
 
-        public Line Draws(MouseEventArgs e)
+        private Line Draws(MouseEventArgs e)
         {
             Line line = new Line();
             line.Stroke = SystemColors.WindowFrameBrush;
@@ -76,19 +73,39 @@ namespace Paint
             line.X2 = e.GetPosition(myCanvas).X;
             line.Y2 = e.GetPosition(myCanvas).Y;
 
-            string len = Brushsize.SelectedItem.ToString();
-            string pattern = @"\d{1,2}$";
-            Match match = Regex.Match(len, pattern);
-            line.StrokeThickness = int.Parse(match.Value);
+            setBrushSize(line);
 
-            string colr = Brushcolor.SelectedItem.ToString();
-            int colonIndex = colr.IndexOf(": ");
-            string result = colr.Substring(colonIndex + 2);
-            BrushConverter converter = new BrushConverter();
-            Brush colorBrush = (Brush)converter.ConvertFromString(result);
-            line.Stroke = colorBrush;
+            setBrushColor(line);
 
             return line;
         }
-    }
+
+        private string processModeInput()
+        {
+            string mde = Mode.SelectedItem.ToString()!;
+            int mdeIndex = mde!.IndexOf(": ");
+            string remde = mde.Substring(mdeIndex + 2);
+            return remde;
+        }
+
+        private void setBrushSize(Line line)
+        {
+            string brushSizeObj = Brushsize.SelectedItem.ToString()!;
+            string pattern = @"\d{1,2}$";
+            Match match = Regex.Match(brushSizeObj, pattern);
+            line.StrokeThickness = int.Parse(match.Value);
+        }
+
+        private void setBrushColor(Line line)
+        {
+            string brushColorObj = Brushcolor.SelectedItem.ToString()!;
+            int colonIndex = brushColorObj.IndexOf(": ");
+            string result = brushColorObj.Substring(colonIndex + 2);
+
+            BrushConverter converter = new BrushConverter();
+            Brush colorBrush = (Brush)converter.ConvertFromString(result)!;
+            line.Stroke = colorBrush;
+        }
+
+    }    
 }
